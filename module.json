@@ -1,0 +1,16 @@
+{
+  "id": "cdm-icons",
+  "title": "CDM ICONS",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "12"
+  },
+  "description": "Compêndio de ícones destinados a suportar os diversos módulos CDM. Os ícones foram selecionados para complementar e ilustrar os poderes presentes nos módulos.\n\nOs ícones utilizados neste repositório estão sob a licença disponível no site https://craftpix.net/file-licenses/. Certifique-se de revisar os termos antes de reutilizar ou redistribuir os arquivos.",
+  "authors": [
+    {
+      "name": "Magoris",
+      "flags": {}
+    }
+  ]
+}
