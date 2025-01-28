@@ -12,5 +12,8 @@
       "name": "Magoris",
       "flags": {}
     }
-  ]
+  ],
+  "flags": {},
+  "manifest": "https://raw.githubusercontent.com/magoris19/cdm-icons/main/module.json",
+  "download": "https://github.com/magoris19/cdm-icons/archive/refs/tags/v1.0.0.zip"
 }
