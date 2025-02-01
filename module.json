@@ -1,7 +1,7 @@
 {
   "id": "cdm-icons",
   "title": "CDM ICONS",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "compatibility": {
     "minimum": "12",
     "verified": "12"
@@ -15,5 +15,5 @@
   ],
   "flags": {},
   "manifest": "https://raw.githubusercontent.com/magoris19/cdm-icons/refs/heads/main/module.json",
-  "download": "https://github.com/magoris19/cdm-icons/archive/refs/tags/v2.0.0.zip"
+  "download": "https://github.com/magoris19/cdm-icons/archive/refs/tags/v2.0.1.zip"
 }
