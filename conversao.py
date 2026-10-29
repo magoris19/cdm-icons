@@ -1,29 +1,47 @@
-import os
-from PIL import Image
 from pathlib import Path
 
-# Como você já está rodando o script de DENTRO da pasta cdm-icons:
-caminho_origem = Path('.') # O ponto '.' significa "a pasta atual"
+from PIL import Image
 
-# O '../' sobe um nível. A pasta nova será criada dentro de "Módulo Foundry", 
-# ficando lado a lado com a sua pasta cdm-icons original.
-caminho_destino = Path('../cdm-icons-webp') 
 
-# Percorre todos os arquivos PNG recursivamente
-for arquivo in caminho_origem.rglob('*.png'):
-    try:
-        caminho_relativo = arquivo.relative_to(caminho_origem)
-        
-        caminho_novo_arquivo = (caminho_destino / caminho_relativo).with_suffix('.webp')
-        
-        caminho_novo_arquivo.parent.mkdir(parents=True, exist_ok=True)
-        
-        img = Image.open(arquivo)
-        img.save(caminho_novo_arquivo, 'webp', quality=85)
-        
-        print(f'Convertido: {caminho_relativo} -> {caminho_novo_arquivo.name}')
-        
-    except Exception as e:
-        print(f'Erro ao converter {arquivo}: {e}')
+def converter(arquivo):
+    destino = arquivo.with_suffix('.webp')
+    # Não sobrescreve uma imagem WebP que já exista.
+    with Image.open(arquivo) as img:
+        tamanho = img.size
+        with destino.open('xb') as saida:
+            img.save(saida, 'WEBP', quality=85)
 
-print("\nConversão de todas as subpastas finalizada com sucesso!")
+    # Só apaga o PNG depois de reabrir e decodificar a imagem salva.
+    with Image.open(destino) as convertido:
+        convertido.load()
+        if convertido.format != 'WEBP' or convertido.size != tamanho:
+            raise ValueError(f'Falha na validação de {destino}')
+    arquivo.unlink()
+    return destino
+
+
+def main():
+    caminho_origem = Path(__file__).resolve().parent
+    arquivos = [p for p in caminho_origem.rglob('*')
+                if p.is_file() and p.suffix.lower() == '.png'
+                and not {'.git', '.venv', 'venv'}.intersection(
+                    p.relative_to(caminho_origem).parts)]
+    convertidos = 0
+    erros = 0
+    for arquivo in arquivos:
+        try:
+            destino = converter(arquivo)
+            convertidos += 1
+            print(f'Convertido e PNG removido: {destino.relative_to(caminho_origem)}')
+        except Exception as e:
+            erros += 1
+            print(f'PNG preservado: {arquivo} — {e}')
+
+    print(f'\nFinalizado: {convertidos} convertido(s), {erros} erro(s).')
+    if not arquivos:
+        print('Nenhum PNG encontrado.')
+    return 1 if erros else 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
